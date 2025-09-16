@@ -39,3 +39,7 @@ build/
 /.idea/
 /data/
 /src/main/resources/
+/build.sh
+/Dockerfile
+/push.sh
+/.local-config
