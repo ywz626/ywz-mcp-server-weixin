@@ -36,8 +36,16 @@ public class WeiXinPort implements IWeiXinPort {
     @Resource
     private Cache<String, String> weixinAccessToken;
 
+        /**
+     * 发送微信模板消息通知
+     *
+     * @param request 微信通知请求参数，包含平台信息、主题、描述和跳转链接等
+     * @return WeiXinNoticeFunctionResponse 微信通知响应结果，表示发送是否成功
+     * @throws IOException 网络请求异常时抛出
+     */
     @Override
     public WeiXinNoticeFunctionResponse weixinNotice(WeiXinNoticeFunctionRequest request) throws IOException {
+        // 1. 获取微信访问令牌，如果缓存中不存在则重新获取并缓存
         String accessToken = weixinAccessToken.getIfPresent(weiXinApiProperties.getAppid());
         if (null == accessToken) {
             TokenResponse response = weiXinApiService.getToken("client_credential", weiXinApiProperties.getAppid(), weiXinApiProperties.getAppsecret()).execute().body();
@@ -63,4 +71,5 @@ public class WeiXinPort implements IWeiXinPort {
 
         return weiXinNoticeFunctionResponse;
     }
+
 }
